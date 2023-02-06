@@ -16,4 +16,7 @@
     <input asp-for="RightOperand"/>
     <input type="submit"/>
 </form>
-<p>result of previous operation: <b>@Model.Result</b></p>
+@if (Model.Result.HasValue)
+{
+    <p>result of previous operation: <b>@Model.Result</b></p>
+}

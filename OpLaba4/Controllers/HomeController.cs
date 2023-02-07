@@ -1,18 +1,10 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OpLaba4.Models;
 
 namespace OpLaba4.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
         return View(new CalculatorViewModel());
@@ -21,6 +13,11 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Index(CalculatorViewModel model)
     {
+        if (string.IsNullOrEmpty(model.SelectedOperator) || !model.Operators.Contains(model.SelectedOperator))
+        {
+            ModelState.AddModelError("SelectedOperator", $"SelectedOperator should be in {string.Join(", ", model.Operators)}");
+        }
+
         if (ModelState.IsValid)
         {
             switch (model.SelectedOperator)

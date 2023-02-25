@@ -13,29 +13,37 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Index(CalculatorViewModel model)
     {
-        if (string.IsNullOrEmpty(model.SelectedOperator) || !model.Operators.Contains(model.SelectedOperator))
-        {
-            ModelState.AddModelError("SelectedOperator", $"SelectedOperator should be in {string.Join(", ", model.Operators)}");
-        }
-
         if (ModelState.IsValid)
         {
-            switch (model.SelectedOperator)
+            ViewBag.Result = model.Result;
+            
+            switch (model.Action)
             {
-                case "+":
-                    model.Result = model.LeftOperand + model.RightOperand;
+                case Constants.Calculate :
+                    switch (model.SelectedOperator)
+                    {
+                        case Constants.Plus:
+                            model.Result = model.LeftOperand + model.RightOperand;
+                            break;
+                        case Constants.Minus:
+                            model.Result = (double)model.LeftOperand - model.RightOperand;
+                            break;
+                        case Constants.Divide:
+                            model.Result = model.LeftOperand / (double)model.RightOperand;
+                            break;
+                        case Constants.Multiply:
+                            model.Result = model.LeftOperand * model.RightOperand;
+                            break;
+                        default:
+                            ModelState.AddModelError("SelectedOperator",
+                                $"SelectedOperator should be in {string.Join(", ", model.Operators)}");
+                            break;
+                    }
                     break;
-                case "-":
-                    model.Result = (double)model.LeftOperand - model.RightOperand;
-                    break;
-                case "/":
-                    model.Result = model.LeftOperand / (double)model.RightOperand;
-                    break;
-                case "*":
-                    model.Result = model.LeftOperand * model.RightOperand;
-                    break;
+                case Constants.Clear:
+                    return RedirectToAction(nameof(Index));
                 default:
-                    ModelState.AddModelError("Operator", "Invalid operator");
+                    ModelState.AddModelError("Action", "Invalid action");
                     break;
             }
         }

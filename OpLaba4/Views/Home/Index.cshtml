@@ -1,4 +1,5 @@
-﻿@model CalculatorViewModel
+﻿@using System.Globalization
+@model CalculatorViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -14,9 +15,23 @@
         }
     </div>
     <input asp-for="RightOperand"/>
-    <input type="submit" value="Calculate"/>
+    <input hidden asp-for="Result" value="@Model.Result"/>
+    <input name="Action" type="submit" value="@Constants.Calculate"/>
+    <input name="Action" type="submit" value="@Constants.Clear">
 </form>
 @if (Model.Result.HasValue)
 {
-    <p>result of previous operation: <b>@Model.Result</b></p>
+    <p>result of previous operation: <b>@Model.Result.Value.ToString(CultureInfo.InvariantCulture)</b></p>
+    @if (ViewBag.Result == Model.Result)
+    {
+        <p>
+            <h6>Same as before.</h6>
+        </p>
+    }
+    else
+    {
+        <p>
+            <h6>Not same as before.</h6>
+        </p>
+    }
 }

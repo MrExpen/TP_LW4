@@ -24,7 +24,10 @@ public class CalculatorViewModel
         }
     }
 
-    public ulong LeftOperand { get; set; }
+    [Required] public ulong LeftOperand { get; set; }
+    
+    //[Compare(nameof(LeftOperand))] 
+    [Range(ulong.MinValue, long.MaxValue)]
     public ulong RightOperand { get; set; }
 
     public string? SelectedOperator { get; set; }

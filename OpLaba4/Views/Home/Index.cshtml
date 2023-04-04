@@ -6,18 +6,23 @@
 
 <form method="post">
     @Html.ValidationSummary()
-    <input asp-for="LeftOperand"/>
+    <input class="operand" asp-for="LeftOperand"/>
+    @Html.ValidationMessageFor(model => model.LeftOperand)
     <div>
         @foreach (var modelOperator in Model.Operators)
         {
             <input asp-for="SelectedOperator" type="radio" value="@modelOperator"/>
             @modelOperator
         }
+        @Html.ValidationMessageFor(model => model.SelectedOperator)
     </div>
-    <input asp-for="RightOperand"/>
+    <input class="operand" asp-for="RightOperand"/>
+    @Html.ValidationMessageFor(model => model.RightOperand)
     <input hidden asp-for="Result" value="@Model.Result"/>
-    <input name="Action" type="submit" value="@Constants.Calculate"/>
-    <input name="Action" type="submit" value="@Constants.Clear">
+    <p>
+        <input class="btn-primary" name="Action" type="submit" value="@Constants.Calculate"/>
+        <input class="btn-primary" name="Action" type="submit" value="@Constants.Clear">
+    </p>
 </form>
 @if (Model.Result.HasValue)
 {

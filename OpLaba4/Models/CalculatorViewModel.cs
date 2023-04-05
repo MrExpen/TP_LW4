@@ -30,7 +30,7 @@ public class CalculatorViewModel
     [Range(ulong.MinValue, long.MaxValue)]
     public ulong RightOperand { get; set; }
 
-    public string? SelectedOperator { get; set; }
+    [Required] public string? SelectedOperator { get; set; }
     public HashSet<string> Operators => CachedOperators;
     public double? Result { get; set; }
 

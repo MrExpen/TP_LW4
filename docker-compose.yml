@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: TP_LW5/Dockerfile
+    ports:
+      - "83:80"
+      
